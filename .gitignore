@@ -1,26 +1,3 @@
-
-# Environment files
-.venv
-
-# Build output
-dist/
-build/
-
-# Content
-test/
-backend/content/
-backend/static/.env
-
-# Linux desktop trash
-.Trash-*
-
-# Common temporary/lock files
-*~
-*.swp
-*.swo
-
-
-
 # Logs
 logs
 *.log
