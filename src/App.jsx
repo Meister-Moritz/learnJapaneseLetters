@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -14,6 +14,7 @@ function App() {
   const [alphabet, setAlphabet] = useState('k')
   const [answner, setAnswer] = useState({myStatus: 'p', messg: ''})
   const [random, setRandom] = useState(Math.floor(Math.random() * katakana.length))
+  const inputRef = useRef(null)
   let headline = 'Katakana'
   let character = katakana[random]
   let next = <></>
@@ -31,15 +32,18 @@ function App() {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      validateInput(random, myInput, setAnswer);
+      console.log('enter')
+      if (answner.myStatus == 'p'){
+        validateInput(random, myInput, setAnswer);
+      }
+      else{
+        handleNext(setRandom, setAnswer, setMyInput, inputRef)
+      }
+      
     }
   };
   if(answner.myStatus != 'p'){
-    next = <button onClick={()=> {
-      setRandom(Math.floor(Math.random() * katakana.length));
-      setAnswer({myStatus: 'p', messg: ''});
-      setMyInput('')
-    }}>next</button>
+    next = <button onClick={()=> handleNext(setRandom, setAnswer, setMyInput, inputRef)}>next</button>
   }
 
   return (
@@ -48,6 +52,7 @@ function App() {
     <button onClick={()=> switchAlphabet(alphabet, setAlphabet)}>switch alphabet</button>
     <h1>{character}</h1>
       <input
+        ref={inputRef}
         type="text"
         value={myInput}
         onChange={e => setMyInput(e.target.value)}
@@ -77,12 +82,17 @@ function switchAlphabet(alphabet, setAlphabet){
 
 function validateInput(random, myInput, setAnswer){
   const correctAnswer = romaji[random]
-  console.log('correct ' + correctAnswer)
-  console.log('input ' + myInput)
   if (correctAnswer == myInput.toLowerCase()){
     setAnswer({myStatus:'t', messg:'Correct'})
     return
   }
   setAnswer({myStatus:'f', messg:'Wrong, the right awnser is: ' + correctAnswer})
   return
+}
+
+function handleNext(setRandom, setAnswer, setMyInput, inputRef){
+  setRandom(Math.floor(Math.random() * katakana.length));
+  setAnswer({myStatus: 'p', messg: ''});
+  setMyInput('')
+  inputRef.current.focus();
 }
