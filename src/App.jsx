@@ -86,7 +86,7 @@ function validateInput(random, myInput, setAnswer){
     setAnswer({myStatus:'t', messg:'Correct'})
     return
   }
-  setAnswer({myStatus:'f', messg:'Wrong, the right awnser is: ' + correctAnswer})
+  setAnswer({myStatus:'f', messg:'Wrong, the right answer is: ' + correctAnswer})
   return
 }
 
